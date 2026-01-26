@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240" role="img" aria-label="Empty">
+  <rect width="320" height="240" fill="#e2e8f0"/>
+  <circle cx="160" cy="110" r="48" fill="#cbd5f5"/>
+  <text x="50%" y="70%" text-anchor="middle" font-family="Inter, Arial" font-size="20" fill="#64748b">No items</text>
+</svg>
