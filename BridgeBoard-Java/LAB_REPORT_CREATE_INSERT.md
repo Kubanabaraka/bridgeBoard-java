@@ -2,9 +2,9 @@
 
 **Lab Title:** Implementing CREATE (INSERT) Operation in Java Backend  
 **Course / Learning Unit:** Learning Unit 6 – Java Backend Development  
-**Student Name:** **************\_\_**************  
-**Registration Number:** **********\_\_\_\_**********  
-**Date:** ******************\_\_\_******************
+**Student Name:** ******\*\*******\_\_******\*\*******  
+**Registration Number:** ****\*\*****\_\_\_\_****\*\*****  
+**Date:** ********\*\*********\_\_\_********\*\*********
 
 ---
 

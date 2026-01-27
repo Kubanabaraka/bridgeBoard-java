@@ -55,6 +55,7 @@ CREATE TABLE skill_posts (
 ```
 
 **Column Explanation:**
+
 - **id** – Unique identifier for each skill post.
 - **user_id** – Owner of the post (reference to the user).
 - **category_id** – Category associated with the post.
@@ -97,6 +98,7 @@ The application connects to the database using a dedicated JDBC utility class. T
 The READ operation is implemented using a SQL SELECT statement and a `PreparedStatement`. The query retrieves records from the **skill_posts** table. A `ResultSet` is then used to iterate through the returned rows, mapping each row to a Java object.
 
 Key points:
+
 - The SELECT statement defines the columns to retrieve.
 - The `ResultSet` provides row-by-row access to the retrieved data.
 - Each row is mapped into a Java model object.
@@ -116,6 +118,7 @@ The retrieved records are displayed through JSP output, ensuring that the user c
 # 7. Verification of SELECT Operation
 
 The READ operation was verified by:
+
 - Confirming the number of records returned by the SELECT query.
 - Comparing the retrieved values with the existing database contents.
 - Ensuring that all expected fields are displayed accurately.
