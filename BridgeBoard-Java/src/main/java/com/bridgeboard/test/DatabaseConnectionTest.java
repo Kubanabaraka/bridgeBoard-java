@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * 
  * Purpose:
  * - Test database connection to bridgeboard_db
- * - Verify MySQL JDBC driver is working
+ * - Verify PostgreSQL JDBC driver is working
  * - Display database metadata
  * - List all tables in the database
  * - NO CRUD operations performed (read-only verification)

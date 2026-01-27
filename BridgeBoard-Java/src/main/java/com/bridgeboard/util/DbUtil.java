@@ -17,6 +17,11 @@ public final class DbUtil {
             }
         } catch (IOException ignored) {
         }
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ignored) {
+        }
     }
 
     private DbUtil() {

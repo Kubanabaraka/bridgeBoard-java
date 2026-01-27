@@ -1,0 +1,146 @@
+:root {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+:root {
+  --brand-primary: #fb542b;
+  --brand-hover: #e64922;
+  --button-primary: #0f3541;
+  --button-hover: #0b2830;
+  --bg-page: #ffffff;
+  --bg-section: #f9fafb;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: #e5e7eb;
+}
+
+a {
+  color: var(--brand-primary);
+}
+
+a:hover {
+  color: var(--brand-hover);
+}
+
+.bg-slate-50 {
+  background-color: var(--bg-section) !important;
+}
+
+.bg-white {
+  background-color: #ffffff !important;
+}
+
+.text-slate-900 {
+  color: var(--text-primary) !important;
+}
+
+.text-slate-800,
+.text-slate-700,
+.text-slate-600,
+.text-slate-500,
+.text-slate-400 {
+  color: var(--text-secondary) !important;
+}
+
+.border-slate-200,
+.border-slate-100,
+.border-slate-300,
+.border-slate-400,
+.border-slate-500,
+.border-slate-600,
+.border-slate-700,
+.border-slate-800 {
+  border-color: var(--border-color) !important;
+}
+
+input,
+select,
+textarea {
+  border-color: var(--button-primary) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--button-primary) !important;
+  --tw-ring-color: var(--button-primary) !important;
+}
+
+.focus\:ring-indigo-100:focus {
+  --tw-ring-color: var(--button-primary) !important;
+}
+
+.bg-indigo-600,
+.bg-indigo-500,
+.bg-indigo-700,
+.bg-indigo-800,
+.bg-teal-500,
+.bg-teal-600 {
+  background-color: var(--button-primary) !important;
+}
+
+.hover\:bg-indigo-700:hover,
+.hover\:bg-indigo-600:hover,
+.hover\:bg-teal-600:hover {
+  background-color: var(--button-hover) !important;
+}
+
+.text-indigo-600,
+.text-indigo-500,
+.text-indigo-700,
+.text-teal-500,
+.text-teal-600 {
+  color: var(--brand-primary) !important;
+}
+
+.hover\:text-slate-900:hover {
+  color: var(--text-primary) !important;
+}
+
+.bg-indigo-50,
+.bg-indigo-100,
+.bg-teal-50,
+.bg-teal-100 {
+  background-color: #fff2ed !important;
+}
+
+.text-indigo-100,
+.text-indigo-200 {
+  color: #ffe5dd !important;
+}
+
+.from-indigo-600 {
+  --tw-gradient-from: var(--brand-primary) !important;
+  --tw-gradient-to: rgb(251 84 43 / 0) !important;
+  --tw-gradient-stops: var(--brand-primary), var(--tw-gradient-to) !important;
+}
+
+.via-indigo-500 {
+  --tw-gradient-stops: var(--brand-primary), var(--brand-primary), var(--tw-gradient-to) !important;
+}
+
+.to-teal-500 {
+  --tw-gradient-to: var(--brand-hover) !important;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -11,8 +11,8 @@ import java.util.Properties;
  * DatabaseConnection - JDBC Connection Manager for BridgeBoard
  * 
  * Purpose:
- * - Establishes connection to MySQL database (bridgeboard_db)
- * - Loads MySQL JDBC driver
+ * - Establishes connection to PostgreSQL database (bridgeboard_db)
+ * - Loads PostgreSQL JDBC driver
  * - Handles connection errors gracefully
  * - Reads database credentials from db.properties or environment variables
  * 
@@ -27,8 +27,8 @@ public final class DatabaseConnection {
     // Database configuration properties
     private static final Properties DB_PROPERTIES = new Properties();
     
-    // JDBC driver class name for MySQL
-    private static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
+    // JDBC driver class name for PostgreSQL
+    private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
     
     // Flag to track if driver is loaded
     private static boolean driverLoaded = false;
@@ -71,18 +71,18 @@ public final class DatabaseConnection {
     }
     
     /**
-     * Load MySQL JDBC driver
+    * Load PostgreSQL JDBC driver
      */
     private static void loadJdbcDriver() {
         try {
-            Class.forName(MYSQL_DRIVER);
+            Class.forName(POSTGRES_DRIVER);
             driverLoaded = true;
-            System.out.println("✓ MySQL JDBC Driver loaded successfully: " + MYSQL_DRIVER);
+            System.out.println("✓ PostgreSQL JDBC Driver loaded successfully: " + POSTGRES_DRIVER);
         } catch (ClassNotFoundException e) {
             driverLoaded = false;
-            System.err.println("❌ CRITICAL ERROR: MySQL JDBC Driver not found!");
-            System.err.println("   Driver class: " + MYSQL_DRIVER);
-            System.err.println("   Make sure mysql-connector-j is in your classpath");
+            System.err.println("❌ CRITICAL ERROR: PostgreSQL JDBC Driver not found!");
+            System.err.println("   Driver class: " + POSTGRES_DRIVER);
+            System.err.println("   Make sure postgresql is in your classpath");
             System.err.println("   Check pom.xml dependencies");
         }
     }
@@ -102,7 +102,7 @@ public final class DatabaseConnection {
         
         // Check if driver is loaded
         if (!driverLoaded) {
-            throw new SQLException("MySQL JDBC Driver not loaded. Cannot establish connection.");
+            throw new SQLException("PostgreSQL JDBC Driver not loaded. Cannot establish connection.");
         }
         
         // Get database credentials
@@ -139,10 +139,10 @@ public final class DatabaseConnection {
             System.err.println("Message: " + e.getMessage());
             System.err.println("=".repeat(60));
             System.err.println("\n🔍 Troubleshooting Steps:");
-            System.err.println("   1. Verify MySQL server is running");
+            System.err.println("   1. Verify PostgreSQL server is running");
             System.err.println("   2. Check database 'bridgeboard_db' exists");
             System.err.println("   3. Verify username and password are correct");
-            System.err.println("   4. Ensure MySQL is listening on localhost:3306");
+            System.err.println("   4. Ensure PostgreSQL is listening on localhost:5432");
             System.err.println("   5. Check firewall settings");
             System.err.println("   6. Review db.properties configuration\n");
             
@@ -159,7 +159,7 @@ public final class DatabaseConnection {
         return getConfigValue(
             "DB_URL", 
             "db.url", 
-            "jdbc:mysql://localhost:3306/bridgeboard_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+            "jdbc:postgresql://localhost:5432/bridgeboard_db"
         );
     }
     
@@ -169,7 +169,7 @@ public final class DatabaseConnection {
      * @return Database username
      */
     private static String getDatabaseUsername() {
-        return getConfigValue("DB_USER", "db.user", "root");
+        return getConfigValue("DB_USER", "db.user", "postgres");
     }
     
     /**
@@ -249,7 +249,7 @@ public final class DatabaseConnection {
         info.append("  Driver Loaded: ").append(driverLoaded).append("\n");
         info.append("  URL: ").append(getDatabaseUrl()).append("\n");
         info.append("  Username: ").append(getDatabaseUsername()).append("\n");
-        info.append("  Driver: ").append(MYSQL_DRIVER).append("\n");
+        info.append("  Driver: ").append(POSTGRES_DRIVER).append("\n");
         return info.toString();
     }
 }

@@ -3,16 +3,17 @@
 ## Step 1: Create the Database ⚙️
 
 ```bash
-# Connect to MySQL
-mysql -u root -p
+# Connect to PostgreSQL
+psql -U postgres
 
 # Or execute SQL file directly
-mysql -u root -p < sql/bridgeboard_db.sql
+psql -U postgres -f sql/bridgeboard_db_pg.sql
 ```
 
-Or from MySQL prompt:
+Or from PostgreSQL prompt:
+
 ```sql
-SOURCE sql/bridgeboard_db.sql;
+\i sql/bridgeboard_db_pg.sql
 ```
 
 ## Step 2: Configure Database Connection 🔧
@@ -20,12 +21,12 @@ SOURCE sql/bridgeboard_db.sql;
 Edit: `src/main/resources/db.properties`
 
 ```properties
-db.url=jdbc:mysql://localhost:3306/bridgeboard_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-db.user=root
-db.password=YOUR_MYSQL_PASSWORD_HERE
+db.url=jdbc:postgresql://localhost:5432/bridgeboard_db
+db.user=postgres
+db.password=YOUR_POSTGRES_PASSWORD_HERE
 ```
 
-**⚠️ IMPORTANT:** Replace `YOUR_MYSQL_PASSWORD_HERE` with your actual MySQL password!
+**⚠️ IMPORTANT:** Replace `YOUR_POSTGRES_PASSWORD_HERE` with your actual PostgreSQL password!
 
 ## Step 3: Compile the Project 📦
 
@@ -47,9 +48,9 @@ mvn exec:java -Dexec.mainClass="com.bridgeboard.test.DatabaseConnectionTest"
   BRIDGEBOARD DATABASE CONNECTION TEST
 ======================================================================
 
-✓ MySQL JDBC Driver loaded successfully
+✓ PostgreSQL JDBC Driver loaded successfully
 ✅ DATABASE CONNECTION SUCCESSFUL!
-   Connected to: jdbc:mysql://localhost:3306/bridgeboard_db
+  Connected to: jdbc:postgresql://localhost:5432/bridgeboard_db
 
 Tables found:
   1. users [TABLE]
@@ -66,22 +67,22 @@ Total tables: 7
 
 ## Database Tables Overview 📊
 
-| Table | Purpose | Key Relationships |
-|-------|---------|-------------------|
-| **users** | User accounts | Parent of all user-related data |
-| **categories** | Skill categories | Referenced by skill_posts |
-| **skill_posts** | Skill offerings/requests | References users & categories |
-| **messages** | User communications | References users & posts |
-| **skill_exchanges** | Exchange transactions | References users & posts |
-| **reviews** | User ratings | References exchanges & users |
-| **favorites** | Bookmarked posts | References users & posts |
+| Table               | Purpose                  | Key Relationships               |
+| ------------------- | ------------------------ | ------------------------------- |
+| **users**           | User accounts            | Parent of all user-related data |
+| **categories**      | Skill categories         | Referenced by skill_posts       |
+| **skill_posts**     | Skill offerings/requests | References users & categories   |
+| **messages**        | User communications      | References users & posts        |
+| **skill_exchanges** | Exchange transactions    | References users & posts        |
+| **reviews**         | User ratings             | References exchanges & users    |
+| **favorites**       | Bookmarked posts         | References users & posts        |
 
 ## Key Files 📁
 
 ```
 BridgeBoard-Java/
 ├── sql/
-│   └── bridgeboard_db.sql              # Database creation script
+│   └── bridgeboard_db_pg.sql           # Database creation script
 ├── src/main/
 │   ├── java/com/bridgeboard/
 │   │   ├── util/
@@ -96,43 +97,53 @@ BridgeBoard-Java/
 ## Troubleshooting 🔍
 
 ### Issue 1: Connection Failed
+
 ```
 ❌ Access denied for user 'root'@'localhost'
 ```
+
 **Solution:** Update password in db.properties
 
 ### Issue 2: Database Not Found
+
 ```
 ❌ Unknown database 'bridgeboard_db'
 ```
-**Solution:** Run `sql/bridgeboard_db.sql` first
 
-### Issue 3: MySQL Not Running
+**Solution:** Run `sql/bridgeboard_db_pg.sql` first
+
+### Issue 3: PostgreSQL Not Running
+
 ```
 ❌ Communications link failure
 ```
-**Solution:** 
+
+**Solution:**
+
 ```bash
 # Linux/Mac
-sudo systemctl start mysql
+sudo systemctl start postgresql
 
 # Windows (as Admin)
-net start MySQL80
+net start postgresql-x64-13
 ```
 
 ### Issue 4: Driver Not Found
+
 ```
-❌ MySQL JDBC Driver not found
+❌ PostgreSQL JDBC Driver not found
 ```
+
 **Solution:** Run `mvn clean install`
 
 ## Verify Database Creation 🔎
 
 ```bash
-mysql -u root -p -e "USE bridgeboard_db; SHOW TABLES;"
+psql -U postgres -d bridgeboard_db -c "\dt"
 ```
 
 Expected output:
+
 ```
 +---------------------------+
 | Tables_in_bridgeboard_db  |
@@ -150,12 +161,14 @@ Expected output:
 ## Next Steps ⏭️
 
 ✅ **COMPLETED:**
+
 - ✓ Database design
 - ✓ Table creation
 - ✓ JDBC connection setup
 - ✓ Connection testing
 
 ⏸️ **WAITING (Do NOT implement yet):**
+
 - ⏸️ CRUD operations (INSERT, UPDATE, DELETE, SELECT)
 - ⏸️ Data Access Objects (DAO classes)
 - ⏸️ Business logic
@@ -166,7 +179,7 @@ Expected output:
 ## Help & Documentation 📚
 
 - Full documentation: `DATABASE_DESIGN.md`
-- SQL schema: `sql/bridgeboard_db.sql`
+- SQL schema: `sql/bridgeboard_db_pg.sql`
 - Connection class: `src/main/java/com/bridgeboard/util/DatabaseConnection.java`
 - Test class: `src/main/java/com/bridgeboard/test/DatabaseConnectionTest.java`
 

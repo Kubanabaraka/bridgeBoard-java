@@ -14,7 +14,8 @@ import java.util.List;
 
 public class SkillPostDao {
     public int create(SkillPost post, String imagesJson) {
-        String sql = "INSERT INTO skill_posts (user_id, category_id, title, description, location, price_min, price_max, images, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO skill_posts (user_id, category_id, title, description, location, price_min, price_max, images, status) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?::post_status)";
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, post.getUserId());
@@ -42,7 +43,7 @@ public class SkillPostDao {
     }
 
     public boolean update(int id, SkillPost post, String imagesJson) {
-        String sql = "UPDATE skill_posts SET category_id = ?, title = ?, description = ?, location = ?, price_min = ?, price_max = ?, images = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE skill_posts SET category_id = ?, title = ?, description = ?, location = ?, price_min = ?, price_max = ?, images = ?::jsonb, status = ?::post_status WHERE id = ?";
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             if (post.getCategoryId() == null) {
