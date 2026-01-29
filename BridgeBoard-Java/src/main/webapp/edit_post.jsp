@@ -38,7 +38,7 @@
             <p class="text-sm uppercase text-indigo-500 font-semibold">Update your post</p>
             <h1 class="text-3xl font-semibold text-slate-900">Edit skill post</h1>
         </div>
-        <form action="<%= request.getContextPath() %>/edit_post.jsp" method="POST" enctype="multipart/form-data" class="space-y-5">
+        <form action="<%= request.getContextPath() %>/posts/update" method="POST" enctype="multipart/form-data" class="space-y-5">
             <input type="hidden" name="csrf_token" value="<%= CsrfUtil.getToken(session) %>">
             <input type="hidden" name="post_id" value="<%= post.getId() %>">
             <div>

@@ -27,7 +27,7 @@ int pendingExchangeCount = exchangeDao.countPendingForUser(user.getId());
         >
           <div class="flex flex-col lg:flex-row gap-6 items-center">
             <img
-              src="<%= request.getContextPath() %>/assets/images/dashboard-banner.svg"
+              src="<%= request.getContextPath() %>/assets/images/dashboard-banner.svg?v=teal-20260129"
               alt="Dashboard"
               class="w-full lg:w-1/2 rounded-2xl shadow-2xl border border-white/30"
             />
