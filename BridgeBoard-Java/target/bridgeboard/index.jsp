@@ -50,11 +50,13 @@ CategoryDao(); SkillPostDao postDao = new SkillPostDao(); List<Category>
           </div>
         </div>
         <div class="flex-1">
-          <img
-            src="<%= request.getContextPath() %>/assets/images/hero.svg"
-            alt="Community collaborating"
-            class="w-full rounded-3xl shadow-2xl border border-white/20"
-          />
+          <div
+            class="w-full h-72 md:h-96 rounded-2xl shadow-2xl border border-white/30 bg-[#0f3b46] flex items-center justify-center"
+            aria-label="Community collaborating"
+            role="img"
+          >
+            <span class="text-white/80 text-2xl font-semibold">Community</span>
+          </div>
         </div>
       </div>
     </section>

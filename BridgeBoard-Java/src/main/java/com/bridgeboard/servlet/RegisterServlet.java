@@ -96,10 +96,10 @@ public class RegisterServlet extends HttpServlet {
         }
 
         user.setId(userId);
-        session.setAttribute("user", user);
+        session.removeAttribute("user");
         FormUtil.clearOldInput(session);
-        FlashUtil.put(session, "success", "Account created successfully!");
-        response.sendRedirect(request.getContextPath() + "/dashboard.jsp");
+        FlashUtil.put(session, "success", "Account created successfully! Please log in.");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
     }
 
     private String trim(String value) {
