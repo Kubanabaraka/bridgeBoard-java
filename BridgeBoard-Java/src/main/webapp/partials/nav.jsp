@@ -79,6 +79,7 @@ session.getAttribute("user"); String ctx = request.getContextPath(); %>
       <div class="flex flex-col gap-4 pb-4 text-slate-700">
         <a href="<%= ctx %>/browse.jsp" class="hover:text-slate-900">Browse</a>
         <a href="<%= ctx %>/search.jsp" class="hover:text-slate-900">Search</a>
+        <a href="<%= ctx %>/posts/search-by-date" class="hover:text-slate-900">Search by Date</a>
         <a href="<%= ctx %>/contact.jsp" class="hover:text-slate-900"
           >Contact</a
         >

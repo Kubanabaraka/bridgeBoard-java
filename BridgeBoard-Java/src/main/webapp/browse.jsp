@@ -71,6 +71,39 @@ new CategoryDao(); SkillPostDao postDao = new SkillPostDao(); List<Category>
               placeholder="Remote / Austin"
             />
           </div>
+          <div>
+            <label class="text-sm font-semibold text-slate-600 mb-1 block"
+              >Exact Date</label
+            >
+            <input
+              type="date"
+              name="date"
+              value=""
+              class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-slate-600 mb-1 block"
+              >From Date</label
+            >
+            <input
+              type="date"
+              name="start_date"
+              value=""
+              class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-slate-600 mb-1 block"
+              >To Date</label
+            >
+            <input
+              type="date"
+              name="end_date"
+              value=""
+              class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
           <div class="md:col-span-4 flex gap-3">
             <button
               type="submit"
