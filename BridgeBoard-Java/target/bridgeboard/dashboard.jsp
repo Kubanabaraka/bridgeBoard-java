@@ -7,13 +7,45 @@ import="com.bridgeboard.model.SkillPost" %> <%@ page
 import="com.bridgeboard.model.User" %> <%@ page
 import="com.bridgeboard.util.DateUtil" %> <%@ page
 import="com.bridgeboard.util.HtmlUtil" %> <%@ page
-import="com.bridgeboard.util.CsrfUtil" %> <%@ page import="java.util.List" %> <%
+import="com.bridgeboard.util.CsrfUtil" %> <%@ page import="java.util.List" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeParseException" %>
+<%
 User user = (User) session.getAttribute("user"); if (user == null) {
 response.sendRedirect(request.getContextPath() + "/login.jsp"); return; }
 request.setAttribute("pageTitle", "Dashboard"); SkillPostDao postDao = new
 SkillPostDao(); MessageDao messageDao = new MessageDao(); FavoriteDao favoriteDao = new FavoriteDao();
 SkillExchangeDao exchangeDao = new SkillExchangeDao();
-List<SkillPost> posts = postDao.forUser(user.getId()); List<Message>
+
+// Parse date filter parameters for dashboard post search
+String dashDateRaw = request.getParameter("date");
+String dashStartDateRaw = request.getParameter("start_date");
+String dashEndDateRaw = request.getParameter("end_date");
+LocalDate dashDate = null;
+LocalDate dashStartDate = null;
+LocalDate dashEndDate = null;
+String dashDateError = null;
+boolean dashDateFiltered = false;
+
+if (dashDateRaw != null && !dashDateRaw.isBlank()) {
+    try { dashDate = LocalDate.parse(dashDateRaw); dashDateFiltered = true; } catch (DateTimeParseException e) { dashDateError = "Invalid date format."; }
+}
+if (dashStartDateRaw != null && !dashStartDateRaw.isBlank() && dashEndDateRaw != null && !dashEndDateRaw.isBlank()) {
+    try {
+        dashStartDate = LocalDate.parse(dashStartDateRaw);
+        dashEndDate = LocalDate.parse(dashEndDateRaw);
+        if (dashStartDate.isAfter(dashEndDate)) { dashDateError = "Start date must not be after end date."; dashStartDate = null; dashEndDate = null; }
+        else { dashDateFiltered = true; }
+    } catch (DateTimeParseException e) { dashDateError = "Invalid date range format."; }
+}
+
+List<SkillPost> posts;
+if (dashDateFiltered) {
+    posts = postDao.forUserByDate(user.getId(), dashDate, dashStartDate, dashEndDate);
+} else {
+    posts = postDao.forUser(user.getId());
+}
+List<Message>
     messages = messageDao.forUser(user.getId(), 10);
 int favoriteCount = favoriteDao.countForUser(user.getId());
 int exchangeCount = exchangeDao.countForUser(user.getId());
@@ -100,6 +132,49 @@ int pendingExchangeCount = exchangeDao.countPendingForUser(user.getId());
                 >Add new</a
               >
             </div>
+            <!-- Date Search Form for User's Posts -->
+            <form action="<%= request.getContextPath() %>/dashboard.jsp" method="GET"
+                  class="mb-6 grid gap-3 md:grid-cols-4 items-end bg-slate-50 rounded-2xl p-4 border border-slate-100">
+              <div>
+                <label class="text-xs font-semibold text-slate-500 mb-1 block">Exact Date</label>
+                <input type="date" name="date" value="<%= HtmlUtil.escape(dashDateRaw == null ? "" : dashDateRaw) %>"
+                       class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-100" />
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-500 mb-1 block">From Date</label>
+                <input type="date" name="start_date" value="<%= HtmlUtil.escape(dashStartDateRaw == null ? "" : dashStartDateRaw) %>"
+                       class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-100" />
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-500 mb-1 block">To Date</label>
+                <input type="date" name="end_date" value="<%= HtmlUtil.escape(dashEndDateRaw == null ? "" : dashEndDateRaw) %>"
+                       class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-100" />
+              </div>
+              <div class="flex gap-2">
+                <button type="submit"
+                        class="flex-1 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-white text-sm font-semibold">
+                  Search
+                </button>
+                <a href="<%= request.getContextPath() %>/dashboard.jsp"
+                   class="inline-flex items-center justify-center rounded-xl border border-slate-200 px-4 py-2 text-slate-600 text-sm">
+                  Reset
+                </a>
+              </div>
+              <% if (dashDateError != null) { %>
+              <div class="md:col-span-4">
+                <div class="rounded-xl bg-red-50 border border-red-200 p-2 text-red-700 text-xs font-medium"><%= HtmlUtil.escape(dashDateError) %></div>
+              </div>
+              <% } %>
+              <% if (dashDateFiltered) { %>
+              <div class="md:col-span-4">
+                <div class="rounded-xl bg-indigo-50 border border-indigo-200 p-2 text-indigo-700 text-xs font-medium">
+                  Showing <%= posts.size() %> post<%= posts.size() != 1 ? "s" : "" %>
+                  <% if (dashDate != null) { %> for date <strong><%= dashDate %></strong><% } %>
+                  <% if (dashStartDate != null && dashEndDate != null) { %> from <strong><%= dashStartDate %></strong> to <strong><%= dashEndDate %></strong><% } %>
+                </div>
+              </div>
+              <% } %>
+            </form>
             <% if (!posts.isEmpty()) { %>
             <div class="space-y-4">
               <% for (SkillPost post : posts) { %>
